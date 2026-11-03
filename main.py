@@ -264,11 +264,11 @@ class App:
         ev, evmap = self.choose(left, 'Event (active period)', [(e['id'], e['title']) for e in self.system.data['events'] if e['period'] == self.system.data['active_period']])
         right = ttk.Frame(frm)
         right.pack(side='left', fill='x', expand=True)
-        status, _ = self.choose(right, 'Attendance result', [(v, v) for v in
+        status, statusmap = self.choose(right, 'Attendance result', [(v, v) for v in
              ('Attended', 'Absent', 'Excused', 'Make-up Completed', 'Pending')])
         note = self.entry(right, 'Remarks / excuse / make-up completion details')
         ttk.Button(parent, text='Save Attendance', command=lambda: self.run_action(lambda: self.system.record_attendance(
-            stumap.get(stu.get(), ''), evmap.get(ev.get(), ''), status.get(), note.get(), self.actor['username']))).pack(anchor='w', pady=12)
+            stumap.get(stu.get(), ''), evmap.get(ev.get(), ''), statusmap.get(status.get(), ''), note.get(), self.actor['username']))).pack(anchor='w', pady=12)
         event_names = {e['id']: e['title'] for e in self.system.data['events']}
         self.table(parent, ('Student ID', 'Event', 'Status', 'Remarks'), [
             (a['student_id'], event_names.get(a['event_id'], a['event_id']), a['status'], a['note'])
@@ -287,11 +287,11 @@ class App:
         dept, dmap = self.choose(left, 'Department', [(d['id'], d['name']) for d in departments])
         right = ttk.Frame(form)
         right.pack(side='left', fill='x', expand=True)
-        status, _ = self.choose(right, 'Clearance status', [(v, v) for v in ('Approved', 'Pending', 'With Requirements')])
+        status, statusmap = self.choose(right, 'Clearance status', [(v, v) for v in ('Approved', 'Pending', 'With Requirements')])
         remarks = self.entry(right, 'Remarks / pending obligation')
         ttk.Button(parent, text='Save Department Decision', command=lambda: self.run_action(
             lambda: self.system.approve_department(smap.get(student.get(), ''), dmap.get(dept.get(), ''),
-                status.get(), remarks.get(), self.actor['username']))).pack(anchor='w', pady=12)
+                statusmap.get(status.get(), ''), remarks.get(), self.actor['username']))).pack(anchor='w', pady=12)
         dept_names = {d['id']: d['name'] for d in departments}
         self.table(parent, ('Student ID', 'Department', 'Decision', 'Remarks', 'Approved By'), [
             (a['student_id'], dept_names[a['department_id']], a['status'], a['note'], a['actor'])
