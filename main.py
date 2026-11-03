@@ -98,8 +98,9 @@ class App:
     @staticmethod
     def entry(parent, caption, mask=None, default=''):
         ttk.Label(parent, text=caption).pack(anchor='w', pady=(7, 2))
-        e = ttk.Entry(parent, width=42, show=mask)
-        e.pack(anchor='w', fill='x')
+        # Keep inputs a readable width instead of stretching across the window.
+        e = ttk.Entry(parent, width=36, show=mask)
+        e.pack(anchor='w')
         if default:
             e.insert(0, default)
         return e
@@ -222,8 +223,8 @@ class App:
         ttk.Label(right, text='Assigned department').pack(anchor='w', pady=(8, 2))
         departments = self.system.data['departments']
         options = {f"{d['id']} — {d['name']}": d['id'] for d in departments}
-        selector = ttk.Combobox(right, values=list(options), state='readonly')
-        selector.pack(fill='x')
+        selector = ttk.Combobox(right, values=list(options), state='readonly', width=36)
+        selector.pack(anchor='w')
         if options:
             selector.current(0)
         ttk.Button(right, text='Create Staff Account', command=lambda: self.run_action(
@@ -248,8 +249,8 @@ class App:
     def choose(self, parent, label, options):
         ttk.Label(parent, text=label).pack(anchor='w', pady=(8, 2))
         choices = {f'{ident} — {name}': ident for ident, name in options}
-        box = ttk.Combobox(parent, values=list(choices), state='readonly')
-        box.pack(fill='x')
+        box = ttk.Combobox(parent, values=list(choices), state='readonly', width=36)
+        box.pack(anchor='w')
         if choices:
             box.current(0)
         return box, choices
